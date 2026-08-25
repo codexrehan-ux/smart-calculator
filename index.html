@@ -3,75 +3,115 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>OmniCalculator Pro - 34+ Free Online Calculators for Finance, Health, Education & Math</title>
-  <meta name="description" content="Free collection of 34+ online calculators covering loans, mortgage, EMI, compound interest, SIP, BMI, calories, GPA, percentage, and date/time. 100% client-side, fast & secure." />
+  <title>AetherCalc Pro - Modern SaaS Smart Calculator Suite (2026 Edition)</title>
+  <meta name="description" content="Next-gen client-side calculator dashboard with 34+ advanced calculators. Designed for developers, finance professionals, and students. Zero data tracked." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body data-theme="dark">
 
   <!-- Top Navigation Bar -->
   <header class="navbar">
     <div class="container nav-container">
       <a href="#" class="brand">
-        <div class="brand-icon">∑</div>
+        <div class="brand-icon">⚡</div>
         <div>
-          <span>OmniCalculator</span>
-          <span class="brand-badge">Pro</span>
+          <span>AetherCalc</span>
+          <span class="brand-badge">2026</span>
         </div>
       </a>
 
       <div class="nav-actions">
         <button class="search-trigger-btn" id="searchTriggerBtn" title="Search calculators (⌘K / Ctrl+K)">
           <span>🔍</span>
-          <span>Search Calculators...</span>
+          <span>Search tools...</span>
           <span class="kbd-shortcut">⌘K</span>
         </button>
         <button class="btn-icon" id="historyToggleBtn" title="Calculation History">⏱️</button>
-        <button class="btn-icon" id="themeToggleBtn" title="Toggle Dark/Light Mode">🌙</button>
+        <button class="btn-icon" id="themeToggleBtn" title="Toggle Dark/Light Mode">☀️</button>
       </div>
     </div>
   </header>
 
   <!-- Hero Section -->
   <main class="container">
-    <section class="hero">
-      <div class="hero-badge">
-        <span>⚡</span> 34+ Free Calculators • Instant & Private
-      </div>
-      <h1 class="hero-title">
-        Free Online <span class="gradient-text">Smart Calculators</span>
-      </h1>
-      <p class="hero-subtitle">
-        Specialized tools for finance, health, business, education, and everyday math.
-        No sign-up, no data stored — everything runs instantly in your browser.
-      </p>
+    <section class="hero-split">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span>💎</span> Next-Gen Computations • Private & Secure
+        </div>
+        <h1 class="hero-title">
+          Smart Calculations, <span class="gradient-text">Beautifully Refined.</span>
+        </h1>
+        <p class="hero-subtitle">
+          An ecosystem of 34+ specialized tools for finance, engineering, date intervals, and health. Created by developers, for creators.
+        </p>
 
-      <!-- Quick Search Bar -->
-      <div class="hero-search-wrapper">
-        <span class="hero-search-icon">🔍</span>
-        <input 
-          type="text" 
-          class="hero-search-input" 
-          id="heroSearchInput" 
-          placeholder="Search by name, category, or keyword (e.g., Loan, BMI, SIP, Tax, GPA)..." 
-          autocomplete="off"
-        />
+        <!-- Quick Search Bar -->
+        <div class="hero-search-wrapper">
+          <span class="hero-search-icon">🔍</span>
+          <input 
+            type="text" 
+            class="hero-search-input" 
+            id="heroSearchInput" 
+            placeholder="What would you like to calculate today?..." 
+            autocomplete="off"
+          />
+        </div>
+
+        <!-- Popular Pill Tags -->
+        <div class="popular-section">
+          <span class="popular-label">Quick Links:</span>
+          <button class="pill-btn" data-calc="bmi">⚖️ BMI</button>
+          <button class="pill-btn" data-calc="loan">💰 Loan</button>
+          <button class="pill-btn" data-calc="calorie">🥗 Calorie</button>
+          <button class="pill-btn" data-calc="percentage">% Percent</button>
+          <button class="pill-btn" data-calc="income-tax">📑 Tax</button>
+          <button class="pill-btn" data-calc="gpa">🎓 GPA</button>
+        </div>
       </div>
 
-      <!-- Popular Pill Tags -->
-      <div class="popular-section">
-        <span class="popular-label">Popular:</span>
-        <button class="pill-btn" data-calc="bmi">⚖️ BMI</button>
-        <button class="pill-btn" data-calc="loan">💰 Loan</button>
-        <button class="pill-btn" data-calc="calorie">🥗 Calorie & TDEE</button>
-        <button class="pill-btn" data-calc="percentage">% Percentage</button>
-        <button class="pill-btn" data-calc="income-tax">📑 Income Tax</button>
-        <button class="pill-btn" data-calc="gpa">🎓 GPA</button>
-        <button class="pill-btn" data-calc="compound-interest">📈 Compound Interest</button>
-        <button class="pill-btn" data-calc="sci-calc">🧮 Scientific</button>
+      <!-- 3D Parallax Calculator Card -->
+      <div class="hero-3d-wrapper">
+        <div class="parallax-3d-card" id="parallaxCard">
+          <div class="glow-container"></div>
+          <div class="parallax-content">
+            <div class="calc-mockup-header">
+              <div class="dot red"></div>
+              <div class="dot yellow"></div>
+              <div class="dot green"></div>
+              <span class="mockup-brand">AETHER // SCI</span>
+            </div>
+            <div class="calc-mockup-screen">
+              <div class="mockup-history">cos(45) * 1.414</div>
+              <div class="mockup-display">1.000000</div>
+            </div>
+            <div class="calc-mockup-grid">
+              <div class="mockup-btn fn">sin</div>
+              <div class="mockup-btn fn">cos</div>
+              <div class="mockup-btn fn">tan</div>
+              <div class="mockup-btn op">÷</div>
+              <div class="mockup-btn num">7</div>
+              <div class="mockup-btn num">8</div>
+              <div class="mockup-btn num">9</div>
+              <div class="mockup-btn op">×</div>
+              <div class="mockup-btn num">4</div>
+              <div class="mockup-btn num">5</div>
+              <div class="mockup-btn num">6</div>
+              <div class="mockup-btn op">-</div>
+              <div class="mockup-btn num">1</div>
+              <div class="mockup-btn num">2</div>
+              <div class="mockup-btn num">3</div>
+              <div class="mockup-btn op">+</div>
+              <div class="mockup-btn num clear">AC</div>
+              <div class="mockup-btn num">0</div>
+              <div class="mockup-btn num">.</div>
+              <div class="mockup-btn blue">=</div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -83,6 +123,35 @@
     <!-- Calculators Grid -->
     <section class="calculators-grid" id="calculatorsGrid" aria-label="Calculators Directory">
       <!-- Calculator cards rendered by script.js -->
+    </section>
+
+    <!-- Developer Profile Card (Clean About Creator Section) -->
+    <section class="dev-profile-section">
+      <div class="dev-profile-card">
+        <div class="profile-glow"></div>
+        <div class="profile-header">
+          <div class="profile-avatar">MR</div>
+          <div>
+            <h3 class="profile-name">Mohd Rehan</h3>
+            <p class="profile-title">Lead Engineer & UI Designer</p>
+          </div>
+        </div>
+        <div class="profile-body">
+          <p>
+            AetherCalc Pro was conceptualized and built to merge mathematical utility with high-end digital aesthetics. Run entirely client-side, it guarantees absolute privacy for your personal data.
+          </p>
+          <div class="profile-metadata-grid">
+            <div class="meta-item">
+              <span class="meta-icon">📧</span>
+              <a href="mailto:codebyrehan@gmail.com" class="meta-link">codebyrehan@gmail.com</a>
+            </div>
+            <div class="meta-item">
+              <span class="meta-icon">💻</span>
+              <a href="https://github.com/codebyrehan/smart-calculator" target="_blank" rel="noopener" class="meta-link">github.com/codebyrehan/smart-calculator</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -237,14 +306,14 @@
     </div>
   </aside>
 
-  <!-- Footer & About Section -->
+  <!-- Footer -->
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-col">
           <div class="brand" style="margin-bottom: 0.75rem;">
-            <div class="brand-icon">∑</div>
-            <span>OmniCalculator Pro</span>
+            <div class="brand-icon">⚡</div>
+            <span>AetherCalc</span>
           </div>
           <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
             A free, open-source collection of 34+ online calculators covering finance, loans, health, education, business, and everyday math. Every calculation runs entirely in your browser — zero tracking, zero accounts, 100% privacy by design.
@@ -282,7 +351,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© 2026 OmniCalculator Pro. MIT Licensed.</span>
+        <span>© 2026 AetherCalc. MIT Licensed.</span>
         <span>Built with pure vanilla HTML5, CSS3 & JavaScript.</span>
       </div>
     </div>

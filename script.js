@@ -2176,7 +2176,33 @@ function updateFloatingDisplay() {
   if (mainEl) mainEl.textContent = fCurrent;
 }
 
-// Attach floating calc initialization to DOM ready
+// 3D Parallax Card Effect
+function initParallaxCard() {
+  const card = document.getElementById('parallaxCard');
+  const wrapper = document.querySelector('.hero-3d-wrapper');
+  if (!card || !wrapper) return;
+
+  wrapper.addEventListener('mousemove', (e) => {
+    const rect = wrapper.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = ((centerY - y) / centerY) * 20; // up to 20 deg
+    const rotateY = ((x - centerX) / centerX) * 20;
+
+    card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.04, 1.04, 1.04)`;
+  });
+
+  wrapper.addEventListener('mouseleave', () => {
+    card.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+  });
+}
+
+// Attach floating calc and 3D parallax card initialization to DOM ready
 document.addEventListener('DOMContentLoaded', () => {
   initFloatingCalculator();
+  initParallaxCard();
 });

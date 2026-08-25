@@ -128,6 +128,101 @@
     </div>
   </div>
 
+  <!-- Floating Quick Calculator Launcher FAB -->
+  <button class="floating-calc-fab" id="floatingCalcFab" title="Open Floating Scientific Calculator">
+    <span>🧮</span>
+    <span>Quick Calc</span>
+  </button>
+
+  <!-- Floating Scientific Calculator Window (Exact Match to User Image) -->
+  <div class="floating-calc-window" id="floatingCalcWindow" role="region" aria-label="Floating Scientific Calculator">
+    <div class="floating-calc-bar" id="floatingCalcBar">
+      <div class="floating-calc-pill-title">
+        <span>🧮</span>
+        <span>Scientific Quick Calc</span>
+      </div>
+      <div class="floating-calc-ctrls">
+        <button class="floating-calc-ctrl-btn" id="floatingCalcMinBtn" title="Minimize">_</button>
+        <button class="floating-calc-ctrl-btn close" id="floatingCalcCloseBtn" title="Close">&times;</button>
+      </div>
+    </div>
+
+    <!-- Display Screen -->
+    <div class="floating-display-box">
+      <div class="floating-display-history" id="fDisplayHistory">&nbsp;</div>
+      <div class="floating-display-main" id="fDisplayMain">0</div>
+    </div>
+
+    <!-- 10-Column Keypad matching reference image -->
+    <div class="floating-calc-keypad" id="floatingCalcKeypad">
+      <!-- Row 1 -->
+      <button class="f-key" data-fn="sin">sin</button>
+      <button class="f-key" data-fn="cos">cos</button>
+      <button class="f-key" data-fn="tan">tan</button>
+      <div class="f-key-radio-group">
+        <label class="f-radio-label">
+          <input type="radio" name="angleMode" value="deg" id="fDegRadio" checked /> Deg
+        </label>
+        <label class="f-radio-label">
+          <input type="radio" name="angleMode" value="rad" id="fRadRadio" /> Rad
+        </label>
+      </div>
+      <button class="f-key num-key" data-val="7">7</button>
+      <button class="f-key num-key" data-val="8">8</button>
+      <button class="f-key num-key" data-val="9">9</button>
+      <button class="f-key op-key" data-val="+">+</button>
+      <button class="f-key" data-action="back">Back</button>
+
+      <!-- Row 2 -->
+      <button class="f-key" data-fn="asin">sin⁻¹</button>
+      <button class="f-key" data-fn="acos">cos⁻¹</button>
+      <button class="f-key" data-fn="atan">tan⁻¹</button>
+      <button class="f-key" data-fn="pi">π</button>
+      <button class="f-key" data-fn="e">e</button>
+      <button class="f-key num-key" data-val="4">4</button>
+      <button class="f-key num-key" data-val="5">5</button>
+      <button class="f-key num-key" data-val="6">6</button>
+      <button class="f-key op-key" data-val="-">-</button>
+      <button class="f-key" data-fn="ans">Ans</button>
+
+      <!-- Row 3 -->
+      <button class="f-key" data-fn="pow_y">xʸ</button>
+      <button class="f-key" data-fn="pow_3">x³</button>
+      <button class="f-key" data-fn="pow_2">x²</button>
+      <button class="f-key" data-fn="exp_e">eˣ</button>
+      <button class="f-key" data-fn="exp_10">10ˣ</button>
+      <button class="f-key num-key" data-val="1">1</button>
+      <button class="f-key num-key" data-val="2">2</button>
+      <button class="f-key num-key" data-val="3">3</button>
+      <button class="f-key op-key" data-val="*">×</button>
+      <button class="f-key" data-fn="mplus">M+</button>
+
+      <!-- Row 4 -->
+      <button class="f-key" data-fn="yroot">ʸ√x</button>
+      <button class="f-key" data-fn="cbrt">³√x</button>
+      <button class="f-key" data-fn="sqrt">√x</button>
+      <button class="f-key" data-fn="ln">ln</button>
+      <button class="f-key" data-fn="log">log</button>
+      <button class="f-key num-key" data-val="0">0</button>
+      <button class="f-key num-key" data-val=".">.</button>
+      <button class="f-key" data-fn="exp_sci">EXP</button>
+      <button class="f-key op-key" data-val="/">/</button>
+      <button class="f-key" data-fn="mminus">M-</button>
+
+      <!-- Row 5 -->
+      <button class="f-key" data-val="(">(</button>
+      <button class="f-key" data-val=")">)</button>
+      <button class="f-key" data-fn="inv">1/x</button>
+      <button class="f-key" data-fn="pct">%</button>
+      <button class="f-key" data-fn="fact">n!</button>
+      <button class="f-key" data-fn="plusminus">±</button>
+      <button class="f-key" data-fn="rnd">RND</button>
+      <button class="f-key btn-ac" data-action="ac">AC</button>
+      <button class="f-key btn-equals" data-action="equals">=</button>
+      <button class="f-key" data-fn="mr">MR</button>
+    </div>
+  </div>
+
   <!-- History Drawer -->
   <aside class="history-drawer" id="historyDrawer" aria-label="Recent calculations">
     <div class="history-header">

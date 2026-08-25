@@ -1887,3 +1887,296 @@ function escapeHtml(str) {
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   })[m]);
 }
+
+// ==========================================
+// 8. Floating Scientific Calculator Engine
+// ==========================================
+
+let fExp = '';
+let fCurrent = '0';
+let fAns = '0';
+let fMem = 0;
+let fAngleMode = 'deg';
+let fResetOnNextDigit = false;
+
+function initFloatingCalculator() {
+  const fab = document.getElementById('floatingCalcFab');
+  const win = document.getElementById('floatingCalcWindow');
+  const closeBtn = document.getElementById('floatingCalcCloseBtn');
+  const minBtn = document.getElementById('floatingCalcMinBtn');
+  const degRadio = document.getElementById('fDegRadio');
+  const radRadio = document.getElementById('fRadRadio');
+  const keypad = document.getElementById('floatingCalcKeypad');
+  const bar = document.getElementById('floatingCalcBar');
+
+  if (!win) return;
+
+  // Toggle Window
+  fab?.addEventListener('click', () => {
+    win.classList.toggle('active');
+    updateFloatingDisplay();
+  });
+
+  closeBtn?.addEventListener('click', () => win.classList.remove('active'));
+  minBtn?.addEventListener('click', () => win.classList.remove('active'));
+
+  // Deg / Rad mode
+  degRadio?.addEventListener('change', () => { if (degRadio.checked) fAngleMode = 'deg'; });
+  radRadio?.addEventListener('change', () => { if (radRadio.checked) fAngleMode = 'rad'; });
+
+  // Keypad event delegation
+  keypad?.addEventListener('click', (e) => {
+    const btn = e.target.closest('.f-key');
+    if (!btn) return;
+
+    const val = btn.getAttribute('data-val');
+    const action = btn.getAttribute('data-action');
+    const fn = btn.getAttribute('data-fn');
+
+    if (val !== null) {
+      handleFloatingDigitOrOp(val);
+    } else if (action) {
+      if (action === 'ac') {
+        fExp = '';
+        fCurrent = '0';
+        fResetOnNextDigit = false;
+      } else if (action === 'back') {
+        if (fCurrent.length > 1) fCurrent = fCurrent.slice(0, -1);
+        else fCurrent = '0';
+      } else if (action === 'equals') {
+        evaluateFloatingExpression();
+      }
+    } else if (fn) {
+      handleFloatingFunction(fn);
+    }
+    updateFloatingDisplay();
+  });
+
+  // Make floating window draggable on desktop
+  if (bar && win) {
+    let isDragging = false;
+    let startX = 0, startY = 0, initialLeft = 0, initialTop = 0;
+
+    bar.addEventListener('mousedown', (e) => {
+      if (e.target.tagName === 'BUTTON') return;
+      isDragging = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      const rect = win.getBoundingClientRect();
+      initialLeft = rect.left;
+      initialTop = rect.top;
+      win.style.bottom = 'auto';
+      win.style.left = `${initialLeft}px`;
+      win.style.top = `${initialTop}px`;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      win.style.left = `${Math.max(10, initialLeft + dx)}px`;
+      win.style.top = `${Math.max(10, initialTop + dy)}px`;
+    });
+
+    window.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+  }
+}
+
+function handleFloatingDigitOrOp(val) {
+  const isOperator = ['+', '-', '*', '/'].includes(val);
+
+  if (isOperator) {
+    fExp = (fExp ? fExp + ' ' : '') + fCurrent + ' ' + (val === '*' ? '×' : (val === '/' ? '÷' : val));
+    fCurrent = '0';
+    fResetOnNextDigit = false;
+  } else if (val === '(' || val === ')') {
+    if (fCurrent === '0') fCurrent = val;
+    else fCurrent += val;
+  } else {
+    if (fResetOnNextDigit) {
+      fCurrent = val === '.' ? '0.' : val;
+      fResetOnNextDigit = false;
+    } else {
+      if (val === '.') {
+        if (!fCurrent.includes('.')) fCurrent += '.';
+      } else {
+        if (fCurrent === '0') fCurrent = val;
+        else fCurrent += val;
+      }
+    }
+  }
+}
+
+function handleFloatingFunction(fn) {
+  let num = parseFloat(fCurrent) || 0;
+
+  switch (fn) {
+    case 'sin':
+      fExp = `sin(${fCurrent})`;
+      fCurrent = (fAngleMode === 'deg' ? Math.sin(num * Math.PI / 180) : Math.sin(num)).toFixed(8).replace(/\.?0+$/, '');
+      fResetOnNextDigit = true;
+      break;
+    case 'cos':
+      fExp = `cos(${fCurrent})`;
+      fCurrent = (fAngleMode === 'deg' ? Math.cos(num * Math.PI / 180) : Math.cos(num)).toFixed(8).replace(/\.?0+$/, '');
+      fResetOnNextDigit = true;
+      break;
+    case 'tan':
+      fExp = `tan(${fCurrent})`;
+      fCurrent = (fAngleMode === 'deg' ? Math.tan(num * Math.PI / 180) : Math.tan(num)).toFixed(8).replace(/\.?0+$/, '');
+      fResetOnNextDigit = true;
+      break;
+    case 'asin':
+      fExp = `sin⁻¹(${fCurrent})`;
+      const asinVal = Math.asin(num);
+      fCurrent = isNaN(asinVal) ? 'Error' : (fAngleMode === 'deg' ? (asinVal * 180 / Math.PI) : asinVal).toFixed(8).replace(/\.?0+$/, '');
+      fResetOnNextDigit = true;
+      break;
+    case 'acos':
+      fExp = `cos⁻¹(${fCurrent})`;
+      const acosVal = Math.acos(num);
+      fCurrent = isNaN(acosVal) ? 'Error' : (fAngleMode === 'deg' ? (acosVal * 180 / Math.PI) : acosVal).toFixed(8).replace(/\.?0+$/, '');
+      fResetOnNextDigit = true;
+      break;
+    case 'atan':
+      fExp = `tan⁻¹(${fCurrent})`;
+      const atanVal = Math.atan(num);
+      fCurrent = isNaN(atanVal) ? 'Error' : (fAngleMode === 'deg' ? (atanVal * 180 / Math.PI) : atanVal).toFixed(8).replace(/\.?0+$/, '');
+      fResetOnNextDigit = true;
+      break;
+    case 'pi':
+      fCurrent = Math.PI.toFixed(8);
+      fResetOnNextDigit = true;
+      break;
+    case 'e':
+      fCurrent = Math.E.toFixed(8);
+      fResetOnNextDigit = true;
+      break;
+    case 'pow_y':
+      fExp = `${fCurrent} ^`;
+      fCurrent = '0';
+      break;
+    case 'pow_3':
+      fExp = `${fCurrent}³`;
+      fCurrent = Math.pow(num, 3).toString();
+      fResetOnNextDigit = true;
+      break;
+    case 'pow_2':
+      fExp = `${fCurrent}²`;
+      fCurrent = Math.pow(num, 2).toString();
+      fResetOnNextDigit = true;
+      break;
+    case 'exp_e':
+      fExp = `e^(${fCurrent})`;
+      fCurrent = Math.exp(num).toFixed(8).replace(/\.?0+$/, '');
+      fResetOnNextDigit = true;
+      break;
+    case 'exp_10':
+      fExp = `10^(${fCurrent})`;
+      fCurrent = Math.pow(10, num).toString();
+      fResetOnNextDigit = true;
+      break;
+    case 'sqrt':
+      fExp = `√(${fCurrent})`;
+      fCurrent = num < 0 ? 'Error' : Math.sqrt(num).toFixed(8).replace(/\.?0+$/, '');
+      fResetOnNextDigit = true;
+      break;
+    case 'cbrt':
+      fExp = `³√(${fCurrent})`;
+      fCurrent = Math.cbrt(num).toFixed(8).replace(/\.?0+$/, '');
+      fResetOnNextDigit = true;
+      break;
+    case 'yroot':
+      fExp = `ʸ√(${fCurrent})`;
+      fCurrent = '0';
+      break;
+    case 'ln':
+      fExp = `ln(${fCurrent})`;
+      fCurrent = num <= 0 ? 'Error' : Math.log(num).toFixed(8).replace(/\.?0+$/, '');
+      fResetOnNextDigit = true;
+      break;
+    case 'log':
+      fExp = `log(${fCurrent})`;
+      fCurrent = num <= 0 ? 'Error' : Math.log10(num).toFixed(8).replace(/\.?0+$/, '');
+      fResetOnNextDigit = true;
+      break;
+    case 'inv':
+      fExp = `1/(${fCurrent})`;
+      fCurrent = num === 0 ? 'Error' : (1 / num).toFixed(8).replace(/\.?0+$/, '');
+      fResetOnNextDigit = true;
+      break;
+    case 'pct':
+      fCurrent = (num / 100).toString();
+      break;
+    case 'fact':
+      fExp = `${fCurrent}!`;
+      let factRes = 1;
+      for (let i = 2; i <= Math.min(num, 150); i++) factRes *= i;
+      fCurrent = factRes.toString();
+      fResetOnNextDigit = true;
+      break;
+    case 'plusminus':
+      fCurrent = (-num).toString();
+      break;
+    case 'rnd':
+      fCurrent = Math.random().toFixed(6);
+      fResetOnNextDigit = true;
+      break;
+    case 'exp_sci':
+      fCurrent += 'e';
+      break;
+    case 'ans':
+      fCurrent = fAns;
+      fResetOnNextDigit = true;
+      break;
+    case 'mplus':
+      fMem += num;
+      showToast(`Added to Memory: ${fMem}`);
+      break;
+    case 'mminus':
+      fMem -= num;
+      showToast(`Subtracted from Memory: ${fMem}`);
+      break;
+    case 'mr':
+      fCurrent = fMem.toString();
+      fResetOnNextDigit = true;
+      break;
+  }
+}
+
+function evaluateFloatingExpression() {
+  try {
+    let full = fExp ? `${fExp} ${fCurrent}` : fCurrent;
+    let evalStr = full
+      .replace(/×/g, '*')
+      .replace(/÷/g, '/')
+      .replace(/\^/g, '**')
+      .replace(/ʸ√/g, 'root');
+
+    // Clean safe evaluation
+    if (/^[0-9+\-*/().\s*e]+$/.test(evalStr)) {
+      const res = Function(`'use strict'; return (${evalStr})`)();
+      fExp = `${full} =`;
+      fCurrent = (Math.round(res * 100000000) / 100000000).toString();
+      fAns = fCurrent;
+      fResetOnNextDigit = true;
+    }
+  } catch (err) {
+    fCurrent = 'Error';
+    fResetOnNextDigit = true;
+  }
+}
+
+function updateFloatingDisplay() {
+  const historyEl = document.getElementById('fDisplayHistory');
+  const mainEl = document.getElementById('fDisplayMain');
+  if (historyEl) historyEl.textContent = fExp || ' ';
+  if (mainEl) mainEl.textContent = fCurrent;
+}
+
+// Attach floating calc initialization to DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  initFloatingCalculator();
+});

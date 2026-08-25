@@ -1159,3 +1159,308 @@ body {
     padding-top: 2rem;
   }
 }
+
+/* ==========================================================================
+   Floating Scientific Calculator Widget (Exact Match to Reference Image)
+   ========================================================================== */
+
+.floating-calc-fab {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  z-index: 45;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 0.85rem 1.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.5), 0 8px 10px -6px rgba(37, 99, 235, 0.3);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.floating-calc-fab:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 14px 28px -4px rgba(37, 99, 235, 0.6);
+}
+
+/* Floating Calculator Window */
+.floating-calc-window {
+  position: fixed;
+  bottom: 5.5rem;
+  left: 2rem;
+  z-index: 50;
+  width: 95vw;
+  max-width: 720px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 24px;
+  padding: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+  display: none;
+  flex-direction: column;
+  gap: 1.25rem;
+  animation: floatPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.floating-calc-window.active {
+  display: flex;
+}
+
+[data-theme="dark"] .floating-calc-window {
+  background: #131b2e;
+  border-color: #2a3756;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+}
+
+@keyframes floatPop {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Header bar for dragging / closing */
+.floating-calc-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: grab;
+  padding-bottom: 0.25rem;
+}
+
+.floating-calc-bar:active {
+  cursor: grabbing;
+}
+
+.floating-calc-pill-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #475569;
+}
+
+[data-theme="dark"] .floating-calc-pill-title {
+  color: #94a3b8;
+}
+
+.floating-calc-ctrls {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.floating-calc-ctrl-btn {
+  background: #e2e8f0;
+  border: none;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #475569;
+  transition: all 0.15s ease;
+}
+
+[data-theme="dark"] .floating-calc-ctrl-btn {
+  background: #1e293b;
+  color: #94a3b8;
+}
+
+.floating-calc-ctrl-btn:hover {
+  background: #cbd5e1;
+  color: #0f172a;
+}
+
+.floating-calc-ctrl-btn.close:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+/* Display Screen */
+.floating-display-box {
+  background: #ffffff;
+  border: 1px solid #dbeafe;
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  min-height: 96px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="dark"] .floating-display-box {
+  background: #0b1120;
+  border-color: #1e293b;
+}
+
+.floating-display-history {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-family: var(--font-mono);
+  text-align: right;
+  min-height: 1.2rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.floating-display-main {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  font-family: var(--font-sans);
+  text-align: right;
+  line-height: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+[data-theme="dark"] .floating-display-main {
+  color: #f8fafc;
+}
+
+/* Exact 10-Column Keypad */
+.floating-calc-keypad {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 0.5rem;
+}
+
+.f-key {
+  height: 2.75rem;
+  background: #e2e8f0;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1e293b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s ease;
+  user-select: none;
+}
+
+[data-theme="dark"] .f-key {
+  background: #1e293b;
+  color: #e2e8f0;
+  border-color: #2a3756;
+}
+
+.f-key:hover {
+  background: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+[data-theme="dark"] .f-key:hover {
+  background: #2d3d5a;
+}
+
+.f-key:active {
+  transform: scale(0.95);
+}
+
+/* Keypad Varieties matching image */
+.f-key.num-key {
+  background: #cbd5e1;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+[data-theme="dark"] .f-key.num-key {
+  background: #2a3756;
+}
+
+.f-key.op-key {
+  background: #e2e8f0;
+  font-size: 1rem;
+}
+
+/* Deg / Rad Radio Container in Keypad (Spans 2 columns) */
+.f-key-radio-group {
+  grid-column: span 2;
+  background: #e2e8f0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+[data-theme="dark"] .f-key-radio-group {
+  background: #1e293b;
+  color: #cbd5e1;
+}
+
+.f-radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  cursor: pointer;
+}
+
+.f-radio-label input[type="radio"] {
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+/* Special Button Colors matching image */
+.f-key.btn-ac {
+  background: #94a3b8;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+[data-theme="dark"] .f-key.btn-ac {
+  background: #64748b;
+}
+
+.f-key.btn-equals {
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.35);
+}
+
+.f-key.btn-equals:hover {
+  background: #1d4ed8;
+}
+
+/* Responsive adjustment for small screens */
+@media (max-width: 640px) {
+  .floating-calc-window {
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: 4.5rem;
+    width: auto;
+    max-width: 100%;
+    padding: 1rem;
+  }
+  .floating-calc-keypad {
+    gap: 0.25rem;
+  }
+  .f-key {
+    height: 2.4rem;
+    font-size: 0.75rem;
+  }
+  .f-key-radio-group {
+    font-size: 0.7rem;
+  }
+}

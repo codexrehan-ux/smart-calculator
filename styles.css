@@ -1448,3 +1448,154 @@ body {
     max-height: 95vh;
   }
 }
+
+/* ==========================================================================
+   Category Slider & Carousel Styles
+   ========================================================================== */
+
+.category-slider-wrapper {
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 2.25rem;
+  margin: 3.5rem 0;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+}
+
+.slider-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding: 0 1rem;
+}
+
+.slider-arrow-btn {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  user-select: none;
+  box-shadow: var(--shadow-md);
+}
+
+.slider-arrow-btn:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  box-shadow: var(--neon-glow);
+  transform: scale(1.08);
+}
+
+.slider-arrow-btn:active {
+  transform: scale(0.95);
+}
+
+.active-category-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  text-align: center;
+}
+
+.active-category-icon {
+  font-size: 2.25rem;
+  margin-bottom: 0.25rem;
+  animation: floatIcon 3s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.active-category-title {
+  font-size: 1.85rem;
+  font-weight: 850;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.category-index-badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+}
+
+.slider-viewport {
+  overflow: hidden;
+  position: relative;
+  min-height: 250px;
+}
+
+/* Animations for sliding cards */
+.calculators-grid.sliding {
+  animation: slideFade var(--transition-normal);
+}
+
+@keyframes slideFade {
+  0% { opacity: 0; transform: translateY(12px) scale(0.99); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Pagination Dots */
+.slider-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 1.75rem;
+}
+
+.slider-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border-color);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.slider-dot:hover {
+  background: var(--text-secondary);
+}
+
+.slider-dot.active {
+  width: 24px;
+  border-radius: var(--radius-full);
+  background: var(--primary);
+  box-shadow: var(--neon-glow);
+}
+
+@media (max-width: 640px) {
+  .category-slider-wrapper {
+    padding: 1.25rem;
+  }
+  .active-category-title {
+    font-size: 1.35rem;
+  }
+  .slider-arrow-btn {
+    width: 2.75rem;
+    height: 2.75rem;
+    font-size: 1.1rem;
+  }
+}

@@ -1310,6 +1310,7 @@ const CALCULATORS = [
 // ==========================================
 
 let activeCategory = 'all';
+let activeCategoryIndex = 0;
 let currentCalc = null;
 let calculationHistory = JSON.parse(localStorage.getItem('smart_calc_history') || '[]');
 let currentTheme = localStorage.getItem('smart_calc_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
@@ -1327,12 +1328,74 @@ document.documentElement.setAttribute('data-theme', currentTheme);
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderCategoryTabs();
+  initCategorySlider();
   renderCalculatorsGrid();
   setupEventListeners();
   updateThemeIcon();
   renderHistoryList();
 });
+
+// Category Slider Initialization and Controls
+function initCategorySlider() {
+  // Set initial active category to first in CATEGORIES (skip 'all' perhaps?)
+  activeCategoryIndex = 0;
+  // Ensure we start with the first actual category (could be 'all')
+  setActiveCategoryByIndex(activeCategoryIndex);
+  // Attach arrow button listeners
+  const prevBtn = document.getElementById('prevCategoryBtn');
+  const nextBtn = document.getElementById('nextCategoryBtn');
+  if (prevBtn) prevBtn.addEventListener('click', () => navigateCategory(-1));
+  if (nextBtn) nextBtn.addEventListener('click', () => navigateCategory(1));
+  updateCategoryUI();
+}
+
+function navigateCategory(direction) {
+  const total = CATEGORIES.length;
+  activeCategoryIndex = (activeCategoryIndex + direction + total) % total;
+  setActiveCategoryByIndex(activeCategoryIndex);
+  renderCalculatorsGrid(document.getElementById('heroSearchInput')?.value || '');
+  updateCategoryUI();
+}
+
+function setActiveCategoryByIndex(index) {
+  const cat = CATEGORIES[index];
+  activeCategory = cat.id;
+}
+
+function updateCategoryUI() {
+  const cat = CATEGORIES[activeCategoryIndex];
+  const iconEl = document.getElementById('activeCategoryIcon');
+  const titleEl = document.getElementById('activeCategoryTitle');
+  const badgeEl = document.getElementById('categoryIndexBadge');
+  const dotsEl = document.getElementById('sliderDots');
+  const grid = document.getElementById('calculatorsGrid');
+
+  if (iconEl) iconEl.textContent = cat.icon;
+  if (titleEl) titleEl.textContent = cat.name;
+  if (badgeEl) badgeEl.textContent = `${activeCategoryIndex + 1} of ${CATEGORIES.length}`;
+
+  // Render pagination dots
+  if (dotsEl) {
+    dotsEl.innerHTML = CATEGORIES.map((c, i) => 
+      `<button class="slider-dot ${i === activeCategoryIndex ? 'active' : ''}" data-index="${i}" title="${c.name}"></button>`
+    ).join('');
+    dotsEl.querySelectorAll('.slider-dot').forEach(dot => {
+      dot.addEventListener('click', () => {
+        activeCategoryIndex = parseInt(dot.getAttribute('data-index'));
+        setActiveCategoryByIndex(activeCategoryIndex);
+        renderCalculatorsGrid(document.getElementById('heroSearchInput')?.value || '');
+        updateCategoryUI();
+      });
+    });
+  }
+
+  // Trigger slide animation
+  if (grid) {
+    grid.classList.remove('sliding');
+    void grid.offsetWidth; // force reflow
+    grid.classList.add('sliding');
+  }
+}
 
 function renderCategoryTabs() {
   const container = document.getElementById('categoryNav');
@@ -1738,14 +1801,20 @@ function renderPaletteResults(query) {
 // ==========================================
 
 function setupEventListeners() {
-  // Category tabs click
-  document.getElementById('categoryNav')?.addEventListener('click', (e) => {
-    const tab = e.target.closest('.cat-tab');
-    if (!tab) return;
-    activeCategory = tab.getAttribute('data-category');
-    renderCategoryTabs();
-    renderCalculatorsGrid(document.getElementById('heroSearchInput')?.value || '');
-  });
+  // Touch swipe support on category slider
+  const viewport = document.querySelector('.slider-viewport');
+  if (viewport) {
+    let touchStartX = 0;
+    let touchEndX = 0;
+    viewport.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+    viewport.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > 50) {
+        navigateCategory(diff > 0 ? 1 : -1); // swipe left = next, swipe right = prev
+      }
+    });
+  }
 
   // Hero Quick Search Input
   const heroSearch = document.getElementById('heroSearchInput');
@@ -1793,7 +1862,7 @@ function setupEventListeners() {
     if (e.target.id === 'searchModal') closeSearchPalette();
   });
 
-  // Keyboard shortcut (⌘K / Ctrl+K / Escape)
+  // Keyboard shortcut (⌘K / Ctrl+K / Escape / Arrows)
   window.addEventListener('keydown', (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault();
@@ -1803,6 +1872,13 @@ function setupEventListeners() {
       closeSearchPalette();
       document.getElementById('calcModal')?.classList.remove('active');
       document.getElementById('historyDrawer')?.classList.remove('active');
+    }
+    // Arrow keys navigate categories (only when no modal/input is focused)
+    if (e.key === 'ArrowLeft' && document.activeElement.tagName !== 'INPUT') {
+      navigateCategory(-1);
+    }
+    if (e.key === 'ArrowRight' && document.activeElement.tagName !== 'INPUT') {
+      navigateCategory(1);
     }
   });
 

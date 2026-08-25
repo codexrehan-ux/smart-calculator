@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AetherCalc Pro - Modern SaaS Smart Calculator Suite (2026 Edition)</title>
+  <title>Smart Calculator Pro - Modern SaaS Calculator Suite (2026 Edition)</title>
   <meta name="description" content="Next-gen client-side calculator dashboard with 34+ advanced calculators. Designed for developers, finance professionals, and students. Zero data tracked." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,7 +18,7 @@
       <a href="#" class="brand">
         <div class="brand-icon">⚡</div>
         <div>
-          <span>AetherCalc</span>
+          <span>Smart Calculator</span>
           <span class="brand-badge">2026</span>
         </div>
       </a>
@@ -82,7 +82,7 @@
               <div class="dot red"></div>
               <div class="dot yellow"></div>
               <div class="dot green"></div>
-              <span class="mockup-brand">AETHER // SCI</span>
+              <span class="mockup-brand">SMART // SCI</span>
             </div>
             <div class="calc-mockup-screen">
               <div class="mockup-history">cos(45) * 1.414</div>
@@ -115,15 +115,30 @@
       </div>
     </section>
 
-    <!-- Category Filter Tabs -->
-    <nav class="category-nav" id="categoryNav" aria-label="Calculator Categories">
-      <!-- Generated dynamically by script.js -->
-    </nav>
+    <!-- Swipeable Category Carousel Wrapper -->
+    <div class="category-slider-wrapper" id="categorySlider">
+      <div class="slider-controls">
+        <button class="slider-arrow-btn" id="prevCategoryBtn" aria-label="Previous Category">←</button>
+        <div class="active-category-indicator">
+          <span class="active-category-icon" id="activeCategoryIcon">🔥</span>
+          <h2 class="active-category-title" id="activeCategoryTitle">Popular</h2>
+          <span class="category-index-badge" id="categoryIndexBadge">1 of 8</span>
+        </div>
+        <button class="slider-arrow-btn" id="nextCategoryBtn" aria-label="Next Category">→</button>
+      </div>
 
-    <!-- Calculators Grid -->
-    <section class="calculators-grid" id="calculatorsGrid" aria-label="Calculators Directory">
-      <!-- Calculator cards rendered by script.js -->
-    </section>
+      <!-- Calculators Grid inside a viewport -->
+      <div class="slider-viewport">
+        <section class="calculators-grid" id="calculatorsGrid" aria-label="Calculators Directory">
+          <!-- Calculator cards rendered by script.js -->
+        </section>
+      </div>
+
+      <!-- Dots Navigation -->
+      <div class="slider-dots" id="sliderDots">
+        <!-- Pagination dots loaded dynamically -->
+      </div>
+    </div>
 
     <!-- Developer Profile Card (Clean About Creator Section) -->
     <section class="dev-profile-section">
@@ -138,7 +153,7 @@
         </div>
         <div class="profile-body">
           <p>
-            AetherCalc Pro was conceptualized and built to merge mathematical utility with high-end digital aesthetics. Run entirely client-side, it guarantees absolute privacy for your personal data.
+            Smart Calculator was conceptualized and built to merge mathematical utility with high-end digital aesthetics. Run entirely client-side, it guarantees absolute privacy for your personal data.
           </p>
           <div class="profile-metadata-grid">
             <div class="meta-item">
@@ -313,7 +328,7 @@
         <div class="footer-col">
           <div class="brand" style="margin-bottom: 0.75rem;">
             <div class="brand-icon">⚡</div>
-            <span>AetherCalc</span>
+            <span>Smart Calculator</span>
           </div>
           <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">
             A free, open-source collection of 34+ online calculators covering finance, loans, health, education, business, and everyday math. Every calculation runs entirely in your browser — zero tracking, zero accounts, 100% privacy by design.
@@ -351,7 +366,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© 2026 AetherCalc. MIT Licensed.</span>
+        <span>© 2026 Smart Calculator. MIT Licensed.</span>
         <span>Built with pure vanilla HTML5, CSS3 & JavaScript.</span>
       </div>
     </div>
